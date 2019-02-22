@@ -2,6 +2,7 @@
 This XBlock will show a set of recommended resources which may be helpful to
 students solving a given problem.
 """
+from __future__ import absolute_import
 import hashlib
 import json
 import lxml.etree as etree
@@ -12,8 +13,8 @@ import re
 from copy import deepcopy
 
 from mako.lookup import TemplateLookup
-from urllib import unquote_plus
-from urlparse import urlparse, urlunparse
+from six.moves.urllib.parse import unquote_plus
+from six.moves.urllib.parse import urlparse, urlunparse
 from webob.response import Response
 
 from xblock.core import XBlock
@@ -21,6 +22,7 @@ from xblock.exceptions import JsonHandlerError
 from xblock.fields import Scope, List, Dict, Boolean, String, JSONField
 from xblock.fragment import Fragment
 from xblock.reference.plugins import Filesystem
+import six
 
 # TODO: Should be updated once XBlocks and tracking logs have finalized APIs
 # and documentation.
@@ -899,7 +901,7 @@ class RecommenderXBlock(HelperXBlock):
         result = {
             'flagged_resources': {}
         }
-        for _, flagged_accum_resource_map in self.flagged_accum_resources.iteritems():
+        for _, flagged_accum_resource_map in six.iteritems(self.flagged_accum_resources):
             for resource_id in flagged_accum_resource_map:
                 if resource_id in self.removed_recommendations:
                     continue
@@ -1079,7 +1081,7 @@ def strip_and_clean_html_elements(data):
     """
     Clean an HTML elements and return it
     """
-    return bleach.clean(unicode(data), tags=[], strip=True)
+    return bleach.clean(six.text_type(data), tags=[], strip=True)
 
 def strip_and_clean_url(data):
     """
