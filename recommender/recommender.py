@@ -7,14 +7,15 @@ import hashlib
 import json
 import lxml.etree as etree
 import pkg_resources
-import bleach
 import re
 
 from copy import deepcopy
 
+import six
+from six.moves.urllib.parse import unquote_plus, urlparse, urlunparse
+
+import bleach
 from mako.lookup import TemplateLookup
-from six.moves.urllib.parse import unquote_plus
-from six.moves.urllib.parse import urlparse, urlunparse
 from webob.response import Response
 
 from xblock.core import XBlock
@@ -22,7 +23,6 @@ from xblock.exceptions import JsonHandlerError
 from xblock.fields import Scope, List, Dict, Boolean, String, JSONField
 from xblock.fragment import Fragment
 from xblock.reference.plugins import Filesystem
-import six
 
 # TODO: Should be updated once XBlocks and tracking logs have finalized APIs
 # and documentation.
@@ -70,6 +70,7 @@ def data_structure_upgrade(old_list):
         return new_dict
     else:
         return old_list
+
 
 template_lookup = None
 
@@ -651,7 +652,7 @@ class RecommenderXBlock(HelperXBlock):
             else:
                 result[field] = strip_and_clean_html_elements(data[field])
 
-        ## Handle resource ID changes
+        # Handle resource ID changes
         edited_resource_id = result['url']
         if edited_resource_id != resource_id:
             self._check_location_input(result['url'], 'add_resource', result)
@@ -1008,9 +1009,9 @@ class RecommenderXBlock(HelperXBlock):
         node.set('page_span', str(self.client_configuration['page_span']))
 
         el = etree.SubElement(node, 'resources')
-        ## Note: The line below does not work in edX platform. 
-        ## We should figure out if the appropriate scope is available during import/export
-        ## TODO: Talk to Cale
+        # Note: The line below does not work in edX platform.
+        # We should figure out if the appropriate scope is available during import/export
+        # TODO: Talk to Cale
         el.text = json.dumps(self.recommendations).encode("utf-8")
 
     @staticmethod
@@ -1082,6 +1083,7 @@ def strip_and_clean_html_elements(data):
     Clean an HTML elements and return it
     """
     return bleach.clean(six.text_type(data), tags=[], strip=True)
+
 
 def strip_and_clean_url(data):
     """
