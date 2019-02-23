@@ -14,9 +14,6 @@ matrix:
       env: TOXENV=django20
     - python: 2.7
       env: TOXENV=django21
-  allow_failures:
-    - python: 3.6
-    - python: 3.7
 install: pip install -r requirements.txt
 script:
   - pycodestyle . --max-line-length=419  # TODO 419 --> 120
