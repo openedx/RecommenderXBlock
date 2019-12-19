@@ -47,7 +47,7 @@ def package_data(pkg, root_list):
 
 setup(
     name='recommender-xblock',
-    version='1.4.5',
+    version='1.4.6',
     description='recommender XBlock',   # TODO: write a better description.
     long_description=README,
     author='edX',
@@ -66,20 +66,14 @@ setup(
     cmdclass={
         'install': XBlockInstall,
     },
-    keywords="Django edx",
+    keywords="edx recommender",
     classifiers=[
         "Development Status :: 4 - Beta",
-        "Framework :: Django",
-        "Framework :: Django :: 1.8",
-        "Framework :: Django :: 1.9",
-        "Framework :: Django :: 1.10",
-        "Framework :: Django :: 1.11",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
         "Natural Language :: English",
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 2.7",
         'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
     ],
 )
