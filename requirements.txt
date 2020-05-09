@@ -1,7 +1,0 @@
-bleach
-boto
-fs
-mako
-pycodestyle
-simplejson
-webob

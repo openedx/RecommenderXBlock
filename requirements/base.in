@@ -1,0 +1,10 @@
+# Core requirements for using this package
+-c constraints.txt
+
+
+bleach
+boto
+fs
+mako
+simplejson
+webob
