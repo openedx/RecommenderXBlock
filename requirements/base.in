@@ -8,3 +8,4 @@ fs
 mako
 simplejson
 webob
+web_fragments
