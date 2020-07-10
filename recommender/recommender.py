@@ -47,10 +47,12 @@ except ImportError:
             """ In workbench, do nothing for event emission """
             pass
 
+
 def load(path):
     """Handy helper for getting resources from our kit."""
     data = pkg_resources.resource_string(__name__, path)
     return data.decode("utf8")
+
 
 def stem_url(url):
     """
