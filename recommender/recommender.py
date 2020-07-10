@@ -23,7 +23,7 @@ from webob.response import Response
 from xblock.core import XBlock
 from xblock.exceptions import JsonHandlerError
 from xblock.fields import Scope, List, Dict, Boolean, String, JSONField
-from xblock.fragment import Fragment
+from web_fragments.fragment import Fragment
 from xblock.reference.plugins import Filesystem
 
 # TODO: Should be updated once XBlocks and tracking logs have finalized APIs
@@ -1055,7 +1055,7 @@ class RecommenderXBlock(HelperXBlock):
         ]
 
     @classmethod
-    def parse_xml(cls, node, runtime, keys, _id_generator):  # pylint: disable=unused-argument
+    def parse_xml(cls, node, runtime, keys):
         """
         Parse the XML for the XBlock. It is a list of dictionaries of default recommendations.
 
