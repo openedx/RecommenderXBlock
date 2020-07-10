@@ -48,6 +48,12 @@ except ImportError:
             pass
 
 
+def load(path):
+    """Handy helper for getting resources from our kit."""
+    data = pkg_resources.resource_string(__name__, path)
+    return data.decode("utf8")
+
+
 def stem_url(url):
     """
     Get the base form of url.
@@ -996,9 +1002,9 @@ class RecommenderXBlock(HelperXBlock):
             self._init_template_lookup()
 
         frag = Fragment(template_lookup.get_template("recommenderstudio.html").render())
-        frag.add_css(pkg_resources.resource_string(__name__, "static/css/recommenderstudio.css"))
+        frag.add_css(load("static/css/recommenderstudio.css"))
         frag.add_javascript_url("//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js")
-        frag.add_javascript(pkg_resources.resource_string(__name__, "static/js/src/recommenderstudio.js"))
+        frag.add_javascript(load("static/js/src/recommenderstudio.js"))
         frag.initialize_js('RecommenderXBlock')
         return frag
 
