@@ -5,19 +5,18 @@
 #    make upgrade
 #
 appdirs==1.4.4            # via -r requirements/test.txt, fs
-bleach==3.1.5             # via -r requirements/test.txt
+bleach==3.3.0             # via -r requirements/test.txt
 boto==2.49.0              # via -r requirements/test.txt
-fs==2.4.11                # via -r requirements/test.txt
-mako==1.1.3               # via -r requirements/test.txt
+fs==2.4.12                # via -r requirements/test.txt
+mako==1.1.4               # via -r requirements/test.txt
 markupsafe==1.1.1         # via -r requirements/test.txt, mako
-packaging==20.4           # via -r requirements/test.txt, bleach
+packaging==20.9           # via -r requirements/test.txt, bleach
 pycodestyle==2.6.0        # via -r requirements/test.txt
 pyparsing==2.4.7          # via -r requirements/test.txt, packaging
-pytz==2020.1              # via -r requirements/test.txt, fs
-simplejson==3.17.0        # via -r requirements/test.txt
-six==1.15.0               # via -r requirements/test.txt, bleach, fs, packaging
-typing==3.7.4.1           # via -r requirements/test.txt, fs
-web-fragments==0.3.2      # via -r requirements/test.txt
+pytz==2021.1              # via -r requirements/test.txt, fs
+simplejson==3.17.2        # via -r requirements/test.txt
+six==1.15.0               # via -r requirements/test.txt, bleach, fs
+web-fragments==1.0.0      # via -r requirements/test.txt
 webencodings==0.5.1       # via -r requirements/test.txt, bleach
 webob==1.8.6              # via -r requirements/test.txt
 
