@@ -1,7 +1,6 @@
 language: python
 dist: xenial # required for Python >= 3.7 (travis-ci/travis-ci#9069)
 python:
-- 3.5
 - 3.8
 install:
 - pip install -r requirements/travis.txt
