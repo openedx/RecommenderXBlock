@@ -16,7 +16,7 @@ fs==2.4.13
     # via -r requirements/base.txt
 mako==1.1.4
     # via -r requirements/base.txt
-markupsafe==2.0.1
+markupsafe==1.1.1
     # via
     #   -r requirements/base.txt
     #   mako
@@ -40,6 +40,10 @@ six==1.16.0
     # via
     #   -r requirements/base.txt
     #   bleach
+    #   fs
+typing==3.7.4.3
+    # via
+    #   -r requirements/base.txt
     #   fs
 web-fragments==1.0.0
     # via -r requirements/base.txt
