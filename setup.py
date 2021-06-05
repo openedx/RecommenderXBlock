@@ -47,7 +47,7 @@ def package_data(pkg, root_list):
 
 setup(
     name='recommender-xblock',
-    version='2.0.0',
+    version='2.0.1',
     description='recommender XBlock',   # TODO: write a better description.
     long_description=README,
     author='edX',
@@ -73,7 +73,6 @@ setup(
         "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
         "Natural Language :: English",
         "Programming Language :: Python :: 3",
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.8',
     ],
 )
