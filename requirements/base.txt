@@ -12,7 +12,7 @@ boto==2.49.0
     # via -r requirements/base.in
 fs==2.4.13
     # via -r requirements/base.in
-mako==1.1.4
+mako==1.1.5
     # via -r requirements/base.in
 markupsafe==2.0.1
     # via mako
@@ -22,7 +22,7 @@ pyparsing==2.4.7
     # via packaging
 pytz==2021.1
     # via fs
-simplejson==3.17.3
+simplejson==3.17.5
     # via -r requirements/base.in
 six==1.16.0
     # via
