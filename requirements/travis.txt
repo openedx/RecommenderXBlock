@@ -8,7 +8,7 @@ appdirs==1.4.4
     # via
     #   -r requirements/test.txt
     #   fs
-bleach==4.0.0
+bleach==4.1.0
     # via -r requirements/test.txt
 boto==2.49.0
     # via -r requirements/test.txt
