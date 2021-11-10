@@ -1,10 +1,13 @@
 """Setup for recommender XBlock."""
 
 from __future__ import absolute_import
+
 import os
+import re
 import subprocess
-from setuptools.command.install import install as _install
+
 from setuptools import setup
+from setuptools.command.install import install as _install
 
 base_path = os.path.dirname(__file__)
 README = open(os.path.join(base_path, "README.rst")).read()
