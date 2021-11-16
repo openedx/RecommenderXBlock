@@ -20,13 +20,13 @@ markupsafe==2.0.1
     # via
     #   -r requirements/test.txt
     #   mako
-packaging==21.0
+packaging==21.2
     # via
     #   -r requirements/test.txt
     #   bleach
 pycodestyle==2.8.0
     # via -r requirements/test.txt
-pyparsing==3.0.1
+pyparsing==2.4.7
     # via
     #   -r requirements/test.txt
     #   packaging
