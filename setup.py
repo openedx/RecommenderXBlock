@@ -48,9 +48,25 @@ def package_data(pkg, root_list):
     return {pkg: data}
 
 
+def get_version(file_path):
+    """
+    Extract the version string from the file at the given relative path fragments.
+    """
+    filename = os.path.join(os.path.dirname(__file__), file_path)
+    with open(filename, encoding='utf-8') as opened_file:
+        version_file = opened_file.read()
+        version_match = re.search(r"(?m)^__version__ = ['\"]([^'\"]+)['\"]", version_file)
+    if version_match:
+        return version_match.group(1)
+    raise RuntimeError('Unable to find version string.')
+
+
+VERSION = get_version("recommender/__init__.py")
+
+
 setup(
     name='recommender-xblock',
-    version='2.1.0',
+    version=VERSION,
     description='recommender XBlock',   # TODO: write a better description.
     long_description=README,
     author='edX',
