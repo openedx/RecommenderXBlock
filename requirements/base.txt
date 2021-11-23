@@ -10,19 +10,19 @@ bleach==4.1.0
     # via -r requirements/base.in
 boto==2.49.0
     # via -r requirements/base.in
-fs==2.4.13
+fs==2.4.14
     # via -r requirements/base.in
-mako==1.1.5
+mako==1.1.6
     # via -r requirements/base.in
 markupsafe==2.0.1
     # via mako
-packaging==21.2
+packaging==21.3
     # via bleach
-pyparsing==2.4.7
+pyparsing==3.0.6
     # via packaging
 pytz==2021.3
     # via fs
-simplejson==3.17.5
+simplejson==3.17.6
     # via -r requirements/base.in
 six==1.16.0
     # via
