@@ -41,7 +41,7 @@ six==1.16.0
     #   -r requirements/base.txt
     #   bleach
     #   fs
-web-fragments==1.1.0
+web-fragments==2.0.0
     # via -r requirements/base.txt
 webencodings==0.5.1
     # via
