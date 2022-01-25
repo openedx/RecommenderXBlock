@@ -26,7 +26,7 @@ packaging==21.3
     #   bleach
 pycodestyle==2.8.0
     # via -r requirements/test.in
-pyparsing==3.0.6
+pyparsing==3.0.7
     # via
     #   -r requirements/base.txt
     #   packaging

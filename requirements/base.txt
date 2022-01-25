@@ -18,7 +18,7 @@ markupsafe==2.0.1
     # via mako
 packaging==21.3
     # via bleach
-pyparsing==3.0.6
+pyparsing==3.0.7
     # via packaging
 pytz==2021.3
     # via fs
