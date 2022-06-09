@@ -8,32 +8,20 @@ appdirs==1.4.4
     # via
     #   -r requirements/test.txt
     #   fs
-bleach==4.1.0
+bleach==5.0.0
     # via -r requirements/test.txt
 boto==2.49.0
     # via -r requirements/test.txt
-fs==2.4.14
+fs==2.4.16
     # via -r requirements/test.txt
-mako==1.1.6
+mako==1.2.0
     # via -r requirements/test.txt
-markupsafe==2.0.1
+markupsafe==2.1.1
     # via
     #   -r requirements/test.txt
     #   mako
-packaging==21.3
-    # via
-    #   -r requirements/test.txt
-    #   bleach
 pycodestyle==2.8.0
     # via -r requirements/test.txt
-pyparsing==3.0.6
-    # via
-    #   -r requirements/test.txt
-    #   packaging
-pytz==2021.3
-    # via
-    #   -r requirements/test.txt
-    #   fs
 simplejson==3.17.6
     # via -r requirements/test.txt
 six==1.16.0
