@@ -71,7 +71,7 @@ setup(
     long_description=README,
     author='edX',
     author_email='oscm@edx.org',
-    url='https://github.com/edx/RecommenderXBlock',
+    url='https://github.com/openedx/RecommenderXBlock',
     packages=[
         'recommender',
     ],
