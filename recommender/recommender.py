@@ -17,7 +17,6 @@ import six
 from six.moves.urllib.parse import unquote_plus, urlparse, urlunparse
 
 import bleach
-from mako.lookup import TemplateLookup
 from webob.response import Response
 
 from xblock.core import XBlock
@@ -25,6 +24,7 @@ from xblock.exceptions import JsonHandlerError
 from xblock.fields import Scope, List, Dict, Boolean, String, JSONField
 from web_fragments.fragment import Fragment
 from xblock.reference.plugins import Filesystem
+from xblockutils.resources import ResourceLoader
 
 # TODO: Should be updated once XBlocks and tracking logs have finalized APIs
 # and documentation.
@@ -46,6 +46,8 @@ except ImportError:
         def emit(param1, param2):
             """ In workbench, do nothing for event emission """
             pass
+
+resource_loader = ResourceLoader(__name__)
 
 
 def load(path):
@@ -78,9 +80,6 @@ def data_structure_upgrade(old_list):
         return new_dict
     else:
         return old_list
-
-
-template_lookup = None
 
 
 class HelperXBlock(XBlock):
@@ -413,22 +412,6 @@ class RecommenderXBlock(HelperXBlock):
         response.body = json.dumps({'error': error}).encode('utf-8')
         response.headers['Content-Type'] = 'application/json'
         return response
-
-    def _init_template_lookup(self):
-        """
-        Initialize template_lookup by adding mappings between strings and urls.
-        """
-        global template_lookup
-        template_lookup = TemplateLookup()
-        template_lookup.put_string(
-            "recommenderstudio.html",
-            self.resource_string("static/html/recommenderstudio.html"))
-        template_lookup.put_string(
-            "recommender.html",
-            self.resource_string("static/html/recommender.html"))
-        template_lookup.put_string(
-            "resourcebox.html",
-            self.resource_string("static/html/resourcebox.html"))
 
     def get_client_configuration(self):
         """
@@ -925,6 +908,42 @@ class RecommenderXBlock(HelperXBlock):
         tracker.emit('accum_flagged_resource', result)
         return result
 
+    def _construct_view_resource(self, resource):
+        """
+        Create the view resource dictionary
+        """
+        result = {
+            'id': strip_and_clean_html_elements(resource['id']),
+            'title': strip_and_clean_html_elements(resource['title']),
+            'votes': strip_and_clean_html_elements(resource['upvotes'] - resource['downvotes']),
+            'url': strip_and_clean_url(resource['url']),
+            'description': self._get_onetime_url(strip_and_clean_html_elements(resource['description'])),
+            'descriptionText': strip_and_clean_html_elements(resource['descriptionText']),
+        }
+
+        if resource['id'] in self.endorsed_recommendation_ids:
+            result['endorse_mode'] = 'recommender_endorsed'
+            result['endorse_reason'] = self.endorsed_recommendation_reasons[self.endorsed_recommendation_ids.index(resource['id'])]
+        else:
+            result['endorse_mode'] = ''
+            result['endorse_reason'] = ''
+
+        if resource['id'] in self.downvoted_ids:
+            result['vote_mode'] = 'recommender_downvoting'
+        elif resource['id'] in self.upvoted_ids:
+            result['vote_mode'] = 'recommender_upvoting'
+        else:
+            result['vote_mode'] = ''
+
+        if resource['id'] in self.flagged_ids:
+            result['flag_mode'] = 'recommender_problematic'
+            result['reason'] = self.flagged_reasons[self.flagged_ids.index(resource['id'])]
+        else:
+            result['flag_mode'] = ''
+            result['reason'] = ''
+
+        return result
+
     def student_view(self, _context=None):  # pylint: disable=unused-argument
         """
         The primary view of the RecommenderXBlock, shown to students
@@ -945,10 +964,6 @@ class RecommenderXBlock(HelperXBlock):
         while len(self.endorsed_recommendation_ids) > len(self.endorsed_recommendation_reasons):
             self.endorsed_recommendation_reasons.append('')
 
-        global template_lookup
-        if not template_lookup:
-            self._init_template_lookup()
-
         # Ideally, we'd estimate score based on votes, such that items with
         # 1 vote have a sensible ranking (rather than a perfect rating)
         # We pre-generate URLs for all resources. We benchmarked doing this
@@ -957,28 +972,16 @@ class RecommenderXBlock(HelperXBlock):
         # load continues to be as-is, pre-generation is not a performance
         # issue. If students make substantially more resources, we may want
         # to paginate, and generate in sets of 5-20 URLs per load.
-        resources = [{
-                      'id': strip_and_clean_html_elements(r['id']),
-                      'title': strip_and_clean_html_elements(r['title']),
-                      "votes": strip_and_clean_html_elements(r['upvotes'] - r['downvotes']),
-                      'url': strip_and_clean_url(r['url']),
-                      'description': self._get_onetime_url(strip_and_clean_html_elements(r['description'])),
-                      'descriptionText': strip_and_clean_html_elements(r['descriptionText'])
-                      }
-                     for r in self.recommendations.values()]
+        resources = [self._construct_view_resource(r) for r in self.recommendations.values()]
         resources = sorted(resources, key=lambda r: r['votes'], reverse=True)
 
-        frag = Fragment(
-            template_lookup.get_template("recommender.html").render(
-                resources=resources,
-                upvoted_ids=self.upvoted_ids,
-                downvoted_ids=self.downvoted_ids,
-                endorsed_recommendation_ids=self.endorsed_recommendation_ids,
-                endorsed_recommendation_reasons=self.endorsed_recommendation_reasons,
-                flagged_ids=self.flagged_ids,
-                flagged_reasons=self.flagged_reasons
-            )
-        )
+        frag = Fragment()
+        frag.add_content(resource_loader.render_django_template(
+            "templates/recommender.html", {
+                'resources': resources
+            },
+            i18n_service=self.runtime.service(self, "i18n")
+        ))
         frag.add_css_url("//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css")
         frag.add_javascript_url("//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js")
         frag.add_javascript_url('//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js')
@@ -997,11 +1000,11 @@ class RecommenderXBlock(HelperXBlock):
         The primary view of the RecommenderXBlock in studio. This is shown to
         course staff when editing a course in studio.
         """
-        global template_lookup
-        if not template_lookup:
-            self._init_template_lookup()
-
-        frag = Fragment(template_lookup.get_template("recommenderstudio.html").render())
+        frag = Fragment()
+        frag.add_content(resource_loader.render_django_template(
+            "templates/recommenderstudio.html",
+            i18n_service=self.runtime.service(self, "i18n")
+        ))
         frag.add_css(load("static/css/recommenderstudio.css"))
         frag.add_javascript_url("//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js")
         frag.add_javascript(load("static/js/src/recommenderstudio.js"))

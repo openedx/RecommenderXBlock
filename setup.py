@@ -81,7 +81,7 @@ setup(
             'recommender = recommender:RecommenderXBlock',
         ]
     },
-    package_data=package_data("recommender", ["static", "translations"]),
+    package_data=package_data("recommender", ["static", "templates", "translations"]),
     cmdclass={
         'install': XBlockInstall,
     },
