@@ -37,7 +37,6 @@ coverage.xml
 
 # Translations
 *.mo
-recommender/conf/locale/en
 
 # Mr Developer
 .mr.developer.cfg

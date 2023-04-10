@@ -2,7 +2,7 @@
 host = https://www.transifex.com
 
 [o:open-edx:p:xblocks:r:recommender]
-file_filter = recommender/conf/locale/<lang>/LC_MESSAGES/text.po
-source_file = recommender/conf/locale/en/LC_MESSAGES/text.po
+file_filter = recommender/translations/<lang>/LC_MESSAGES/text.po
+source_file = recommender/translations/en/LC_MESSAGES/text.po
 source_lang = en
 type        = PO
