@@ -78,10 +78,10 @@ setup(
     license='AGPL 3.0',
     entry_points={
         'xblock.v1': [
-            'recommender = recommender:RecommenderXBlock',
+            'recommender = recommender.recommender:RecommenderXBlock',
         ]
     },
-    package_data=package_data("recommender", ["static", "templates", "translations"]),
+    package_data=package_data("recommender", ["static", "templates", "translations", "public"]),
     cmdclass={
         'install': XBlockInstall,
     },

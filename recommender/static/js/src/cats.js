@@ -3,10 +3,26 @@
    //
    // Note: The global `window.*` variables should be converted into local ones to avoid over-using global variables. This is a 2014-era legacy XBlock coding standard that should be refactored -- @OmarIthawi at Apr 4, 2023 
    //
-    var gettext = window.gettext || (function (string) {
-        // Shim Django's `gettext` if unavailable.
-        return string;
-    });
+    var gettext;
+    if ('RecommenderXBlockI18N' in window) {
+        // Use Recommender's local translations
+        gettext = function(string) {
+            var translated = window.RecommenderXBlockI18N.gettext(string);
+            // if Recommender's translation is the same as the input, check if global has a different value
+            // This is useful for overriding the XBlock's string by themes (only for English)
+            if (string === translated && 'gettext' in window) {
+                translated = window.gettext(string);
+            }
+            return translated;
+        };
+    } else if ('gettext' in window) {
+        // Use edxapp's global translations
+        gettext = window.gettext;
+    }
+    if (typeof gettext == "undefined") {
+        // No translations -- used by test environment
+        gettext = function(string) { return string; };
+    }
 
     var span = function(text) {
         // Surround text with a span.

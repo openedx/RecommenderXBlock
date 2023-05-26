@@ -1,8 +1,5 @@
 WORKING_DIR := recommender
-EXTRACT_DIR := $(WORKING_DIR)/conf/locale/en/LC_MESSAGES
-EXTRACTED_DJANGO_PARTIAL := $(EXTRACT_DIR)/django-partial.po
-EXTRACTED_DJANGOJS_PARTIAL := $(EXTRACT_DIR)/djangojs-partial.po
-EXTRACTED_DJANGO := $(EXTRACT_DIR)/django.po
+JS_TARGET := $(WORKING_DIR)/public/js/translations
 
 COMMON_CONSTRAINTS_TXT=requirements/common_constraints.txt
 .PHONY: $(COMMON_CONSTRAINTS_TXT)
@@ -22,12 +19,8 @@ upgrade: $(COMMON_CONSTRAINTS_TXT)  ## update the requirements/*.txt files with 
 	pip-compile --upgrade -o requirements/ci.txt requirements/ci.in
 
 extract_translations: ## extract strings to be translated, outputting .po files
-	cd $(WORKING_DIR) && i18n_tool extract
-	mv $(EXTRACTED_DJANGO_PARTIAL) $(EXTRACTED_DJANGO)
-	# Safely concatenate djangojs if it exists
-	if test -f $(EXTRACTED_DJANGOJS_PARTIAL); then \
-	  msgcat $(EXTRACTED_DJANGO) $(EXTRACTED_DJANGOJS_PARTIAL) -o $(EXTRACTED_DJANGO) && \
-	  rm $(EXTRACTED_DJANGOJS_PARTIAL); \
-	fi
-	sed -i'' -e 's/nplurals=INTEGER/nplurals=2/' $(EXTRACTED_DJANGO)
-	sed -i'' -e 's/plural=EXPRESSION/plural=\(n != 1\)/' $(EXTRACTED_DJANGO)
+	cd $(WORKING_DIR) && i18n_tool extract --no-segment --merge-po-files
+
+compile_translations: ## compile translation files, outputting .mo files for each supported language
+	cd $(WORKING_DIR) && i18n_tool generate -v
+	python manage.py compilejsi18n --namespace RecommenderXBlockI18N --output $(JS_TARGET)
