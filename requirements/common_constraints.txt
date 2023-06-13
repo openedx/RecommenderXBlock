@@ -23,3 +23,6 @@ setuptools<60
 
 # django-simple-history>3.0.0 adds indexing and causes a lot of migrations to be affected
 django-simple-history==3.0.0
+
+# latest versions breaking new some tests.
+backports-zoneinfo==0.2.1
