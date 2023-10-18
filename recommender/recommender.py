@@ -18,6 +18,7 @@ from six.moves.urllib.parse import unquote_plus, urlparse, urlunparse
 
 import bleach
 from webob.response import Response
+from django.utils import translation
 
 from xblock.core import XBlock
 from xblock.exceptions import JsonHandlerError
@@ -944,6 +945,21 @@ class RecommenderXBlock(HelperXBlock):
 
         return result
 
+    @staticmethod
+    def _get_statici18n_js_url():  # pragma: no cover
+        """
+        Returns the Javascript translation file for the currently selected language, if any found by `pkg_resources`
+        """
+        lang_code = translation.get_language()
+        if not lang_code:
+            return None
+        text_js = 'public/js/translations/{lang_code}/text.js'
+        country_code = lang_code.split('-')[0]
+        for code in (translation.to_locale(lang_code), lang_code, country_code):
+            if pkg_resources.resource_exists(resource_loader.module_name, text_js.format(lang_code=code)):
+                return text_js.format(lang_code=code)
+        return None
+
     def student_view(self, _context=None):  # pylint: disable=unused-argument
         """
         The primary view of the RecommenderXBlock, shown to students
@@ -990,6 +1006,9 @@ class RecommenderXBlock(HelperXBlock):
         frag.add_css(self.resource_string("static/css/recommender.css"))
         frag.add_css(self.resource_string("static/css/introjs.css"))
         frag.add_javascript(self.resource_string("static/js/src/jquery.tooltipster.min.js"))
+        statici18n_js_url = self._get_statici18n_js_url()
+        if statici18n_js_url:
+            frag.add_javascript(self.resource_string(statici18n_js_url))
         frag.add_javascript(self.resource_string("static/js/src/cats.js"))
         frag.add_javascript(self.resource_string("static/js/src/recommender.js"))
         frag.initialize_js('RecommenderXBlock', self.get_client_configuration())
@@ -1007,6 +1026,9 @@ class RecommenderXBlock(HelperXBlock):
         ))
         frag.add_css(load("static/css/recommenderstudio.css"))
         frag.add_javascript_url("//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js")
+        statici18n_js_url = self._get_statici18n_js_url()
+        if statici18n_js_url:
+            frag.add_javascript(self.resource_string(statici18n_js_url))
         frag.add_javascript(load("static/js/src/recommenderstudio.js"))
         frag.initialize_js('RecommenderXBlock')
         return frag
