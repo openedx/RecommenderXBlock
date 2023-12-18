@@ -285,7 +285,10 @@ class RecommenderXBlock(HelperXBlock):
         We benchmarked this as less than 8ms on a sandbox machine.
         """
         if filename.startswith('fs://'):
-            return str(self.fs.get_url(filename.replace('fs://', ''), 1000 * 60 * 60 * 10))
+            # 604800 seconds is the maximum allowed expiration by S3.
+            # If this is instead filesystem-backed, the timeout argument has
+            # no effect.
+            return str(self.fs.get_url(filename.replace('fs://', ''), 604800))
         else:
             return filename
 
