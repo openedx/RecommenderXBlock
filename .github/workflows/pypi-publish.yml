@@ -19,7 +19,7 @@ jobs:
           python-version: 3.8
 
       - name: Install get-text
-        run: apt update && apt install gettext
+        run: apt-get install gettext
 
       - name: Install pip
         run: pip install -r requirements/pip.txt
