@@ -1,7 +1,6 @@
 name: Publish package to PyPI
 
 on:
-  pull_request:
   push:
     tags:
       - '*'
