@@ -27,6 +27,8 @@ from web_fragments.fragment import Fragment
 from xblock.reference.plugins import Filesystem
 from xblockutils.resources import ResourceLoader
 
+from recommender.utils import DummyTranslationService
+
 # TODO: Should be updated once XBlocks and tracking logs have finalized APIs
 # and documentation.
 try:
@@ -277,6 +279,8 @@ class RecommenderXBlock(HelperXBlock):
     resource_content_fields = [
         'url', 'title', 'description', 'descriptionText'
     ]
+
+    i18n_js_namespace = 'RecommenderXBlockI18N'
 
     def _get_onetime_url(self, filename):
         """
@@ -949,9 +953,10 @@ class RecommenderXBlock(HelperXBlock):
         return result
 
     @staticmethod
-    def _get_statici18n_js_url():  # pragma: no cover
+    def _get_deprecated_i18n_js_url():  # pragma: no cover
         """
-        Returns the Javascript translation file for the currently selected language, if any found by `pkg_resources`
+        Returns the deprecated Javascript translation file for the currently selected language, if any found by
+        `pkg_resources`
         """
         lang_code = translation.get_language()
         if not lang_code:
@@ -962,6 +967,26 @@ class RecommenderXBlock(HelperXBlock):
             if pkg_resources.resource_exists(resource_loader.module_name, text_js.format(lang_code=code)):
                 return text_js.format(lang_code=code)
         return None
+
+    def _get_statici18n_js_url(self):
+        """Return the JavaScript translation file provided by the XBlockI18NService."""
+        if url_getter_func := getattr(self.i18n_service, 'get_javascript_i18n_catalog_url', None):
+            if javascript_url := url_getter_func(self):
+                return javascript_url
+
+        if deprecated_url := self._get_deprecated_i18n_js_url():
+            return self.resource_string(deprecated_url)
+
+        return None
+
+    @property
+    def i18n_service(self):
+        """ Obtains translation service """
+        i18n_service = self.runtime.service(self, "i18n")
+        if i18n_service:
+            return i18n_service
+        else:
+            return DummyTranslationService()
 
     def student_view(self, _context=None):  # pylint: disable=unused-argument
         """
@@ -1011,7 +1036,7 @@ class RecommenderXBlock(HelperXBlock):
         frag.add_javascript(self.resource_string("static/js/src/jquery.tooltipster.min.js"))
         statici18n_js_url = self._get_statici18n_js_url()
         if statici18n_js_url:
-            frag.add_javascript(self.resource_string(statici18n_js_url))
+            frag.add_javascript(statici18n_js_url)
         frag.add_javascript(self.resource_string("static/js/src/cats.js"))
         frag.add_javascript(self.resource_string("static/js/src/recommender.js"))
         frag.initialize_js('RecommenderXBlock', self.get_client_configuration())

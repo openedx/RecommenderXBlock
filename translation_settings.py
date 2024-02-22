@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from __future__ import absolute_import
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.dirname(__file__)
 
 
 # Quick-start development settings - unsuitable for production
@@ -81,7 +81,7 @@ LANGUAGES = [
     ('zh_CN', 'Chinese (China)'),
 ]
 
-LOCALE_PATHS = [os.path.join(BASE_DIR, "locale")]
+LOCALE_PATHS = [os.path.join(BASE_DIR, "recommender", "conf", "locale")]
 
 STATICI18N_DOMAIN = 'text'
 STATICI18N_NAMESPACE = 'RecommenderXBlockI18N'
