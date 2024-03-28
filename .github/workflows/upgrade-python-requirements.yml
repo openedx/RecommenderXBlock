@@ -17,8 +17,6 @@ jobs:
       branch: ${{ github.event.inputs.branch || '$default-branch' }}
       # optional parameters below; fill in if you'd like github or email notifications
       # user_reviewers: ""
-      # team_reviewers: ""
-      # email_address: ""
       # send_success_notification: false
     secrets:
       requirements_bot_github_token: ${{ secrets.REQUIREMENTS_BOT_GITHUB_TOKEN }}
