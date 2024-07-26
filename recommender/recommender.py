@@ -24,7 +24,7 @@ from xblock.exceptions import JsonHandlerError
 from xblock.fields import Scope, List, Dict, Boolean, String, JSONField
 from web_fragments.fragment import Fragment
 from xblock.reference.plugins import Filesystem
-from xblockutils.resources import ResourceLoader
+from xblock.utils.resources import ResourceLoader
 
 # TODO: Should be updated once XBlocks and tracking logs have finalized APIs
 # and documentation.
