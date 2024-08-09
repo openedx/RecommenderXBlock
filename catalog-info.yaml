@@ -1,0 +1,15 @@
+# This file records information about this repo. Its use is described in OEP-55:
+# https://open-edx-proposals.readthedocs.io/en/latest/processes/oep-0055-proc-project-maintainers.html
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: 'RecommenderXBlock'
+  description: "An XBlock to display list of recommended resources for a given problem."
+  annotations:
+    openedx.org/component-type: "XBlock"
+    openedx.org/arch-interest-groups: ""
+spec:
+  owner: user:navinkarkera
+  type: 'library'
+  lifecycle: 'production'
