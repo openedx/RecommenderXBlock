@@ -8,7 +8,7 @@ import codecs
 import hashlib
 import simplejson as json
 import lxml.etree as etree
-import pkg_resources
+import importlib.resources
 import re
 
 from copy import deepcopy
@@ -55,8 +55,8 @@ resource_loader = ResourceLoader(__name__)
 
 def load(path):
     """Handy helper for getting resources from our kit."""
-    data = pkg_resources.resource_string(__name__, path)
-    return data.decode("utf8")
+    data = importlib.resources.files(__package__).joinpath(path)
+    return data.read_text(encoding="utf-8")
 
 
 def stem_url(url):
@@ -123,8 +123,8 @@ class HelperXBlock(XBlock):
         """
         Handy helper for getting static file resources from our Python package.
         """
-        data = pkg_resources.resource_string(__name__, path)
-        return data.decode("utf8")
+        data = importlib.resources.files(__package__).joinpath(path)
+        return data.read_text(encoding="utf-8")
 
 
 @XBlock.needs('fs')
