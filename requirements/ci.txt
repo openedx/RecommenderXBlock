@@ -28,7 +28,7 @@ lxml[html-clean]==5.3.0
     #   -r test.txt
     #   edx-i18n-tools
     #   lxml-html-clean
-lxml-html-clean==0.2.2
+lxml-html-clean==0.4.0
     # via
     #   -r test.txt
     #   lxml
