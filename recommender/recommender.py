@@ -147,7 +147,7 @@ class RecommenderXBlock(HelperXBlock):
 
     intro_enabled = Boolean(
         help="Should we show the users a short usage tutorial the first time they see the XBlock?",
-        default=True,
+        default=False,
         scope=Scope.content
     )
 
@@ -998,10 +998,8 @@ class RecommenderXBlock(HelperXBlock):
         ))
         frag.add_css_url("//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css")
         frag.add_javascript_url("//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js")
-        frag.add_javascript_url('//cdnjs.cloudflare.com/ajax/libs/intro.js/0.5.0/intro.min.js')
         frag.add_css(self.resource_string("static/css/tooltipster.bundle.min.css"))
         frag.add_css(self.resource_string("static/css/recommender.css"))
-        frag.add_css(self.resource_string("static/css/introjs.css"))
         frag.add_javascript(self.resource_string("static/js/src/tooltipster.bundle.min.js"))
         if statici18n_js_url := self._get_statici18n_js_url():
             frag.add_javascript(statici18n_js_url)

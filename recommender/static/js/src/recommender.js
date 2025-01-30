@@ -1184,10 +1184,6 @@ function RecommenderXBlock(runtime, element, init_data) {
         /* Render the initial web page */
         renderInitialPage();
 
-        if (init_data['intro']){
-            introJs().start();
-        }
-
         // Prevent XSS attack in jQuery 2.X: https://github.com/jquery/jquery/issues/2432#issuecomment-140038536
         $.ajaxSetup({
             contents: {
