@@ -9,15 +9,15 @@ appdirs==1.4.4
 asgiref==3.8.1
     # via django
 bleach==6.2.0
-    # via -r requirements/base.in
-django==4.2.20
+    # via -r base.in
+django==4.2.21
     # via
-    #   -c requirements/common_constraints.txt
+    #   -c common_constraints.txt
     #   edx-i18n-tools
 edx-i18n-tools==1.7.0
-    # via -r requirements/base.in
+    # via -r base.in
 fs==2.4.16
-    # via -r requirements/base.in
+    # via -r base.in
 lxml[html-clean,html_clean]==5.3.2
     # via
     #   edx-i18n-tools
@@ -31,17 +31,17 @@ polib==1.2.0
 pyyaml==6.0.2
     # via edx-i18n-tools
 simplejson==3.20.1
-    # via -r requirements/base.in
+    # via -r base.in
 six==1.17.0
     # via fs
 sqlparse==0.5.3
     # via django
 web-fragments==3.0.0
-    # via -r requirements/base.in
+    # via -r base.in
 webencodings==0.5.1
     # via bleach
 webob==1.8.9
-    # via -r requirements/base.in
+    # via -r base.in
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
