@@ -10,7 +10,7 @@ asgiref==3.8.1
     # via django
 bleach==6.2.0
     # via -r base.in
-django==4.2.26
+django==4.2.28
     # via
     #   -c common_constraints.txt
     #   edx-i18n-tools
