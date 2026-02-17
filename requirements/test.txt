@@ -52,7 +52,7 @@ six==1.17.0
     # via
     #   -r base.txt
     #   fs
-sqlparse==0.5.3
+sqlparse==0.5.4
     # via
     #   -r base.txt
     #   django
