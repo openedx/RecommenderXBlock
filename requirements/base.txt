@@ -10,7 +10,7 @@ asgiref==3.8.1
     # via django
 bleach==6.2.0
     # via -r base.in
-django==4.2.28
+django==4.2.29
     # via
     #   -c common_constraints.txt
     #   edx-i18n-tools
@@ -18,7 +18,7 @@ edx-i18n-tools==1.7.0
     # via -r base.in
 fs==2.4.16
     # via -r base.in
-lxml[html-clean,html_clean]==5.3.2
+lxml[html-clean]==5.3.2
     # via
     #   edx-i18n-tools
     #   lxml-html-clean
