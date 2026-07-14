@@ -27,4 +27,4 @@ jobs:
       run: uv sync --group quality
 
     - name: Run quality checks
-      run: uv run pycodestyle . --max-line-length=419
+      run: uv run pycodestyle . --max-line-length=419 --exclude=.venv
