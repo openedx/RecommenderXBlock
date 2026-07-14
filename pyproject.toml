@@ -1,0 +1,85 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools-scm>=8.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "recommender-xblock"
+dynamic = ["version"]
+description = "recommender XBlock"
+readme = "README.rst"
+license = "AGPL-3.0"
+license-files = ["LICENSE"]
+authors = [
+    {name = "edX", email = "oscm@edx.org"},
+]
+requires-python = ">=3.12"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.2",
+]
+dependencies = [
+    "bleach",
+    "edx-i18n-tools",
+    "fs",
+    "simplejson",
+    "web-fragments",
+    "webob",
+]
+
+[project.urls]
+Homepage = "https://github.com/openedx/RecommenderXBlock"
+
+[project.entry-points."xblock.v1"]
+recommender = "recommender.recommender:RecommenderXBlock"
+
+[tool.setuptools_scm]
+version_scheme = "only-version"
+local_scheme = "no-local-version"
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.setuptools.package-data]
+recommender = [
+    "static/**/*",
+    "templates/**/*",
+    "translations/**/*",
+    "public/**/*",
+]
+
+[tool.setuptools.exclude-package-data]
+"*" = ["tests*", "*.tests*", "spec*", "*.spec*"]
+
+[tool.coverage.run]
+branch = true
+source = ["recommender"]
+omit = [
+    "*/tests/*",
+    "*/migrations/*",
+    "*/__pycache__/*",
+    "*/settings.py",
+]
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.uv]
+package = true

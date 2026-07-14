@@ -6,4 +6,5 @@ students solving a given problem.
 # which is not loaded when running `manage.py` commands (which is used by `make compile_translations`)
 # from .recommender import RecommenderXBlock
 
-__version__ = '5.1.0'
+from importlib.metadata import version
+__version__ = version("recommender-xblock")
