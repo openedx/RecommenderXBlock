@@ -1,4 +1,4 @@
-WORKING_DIR := recommender
+WORKING_DIR := src/recommender
 JS_TARGET := $(WORKING_DIR)/public/js/translations
 
 upgrade: ## update uv.lock with the latest packages
