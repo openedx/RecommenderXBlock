@@ -14,7 +14,7 @@ asgiref==3.11.1
     #   django
 bleach==6.3.0
     # via -r base.txt
-django==5.2.12
+django==5.2.15
     # via
     #   -c common_constraints.txt
     #   -r base.txt
