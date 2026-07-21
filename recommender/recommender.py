@@ -434,10 +434,6 @@ class RecommenderXBlock(HelperXBlock):
         result = self.client_configuration.copy()
         result['is_user_staff'] = self.get_user_is_staff()
         result['intro'] = not self.seen and self.intro_enabled
-        if not self.seen:
-            # Mark the user who interacted with the XBlock first time as seen,
-            # in order not to show the usage tutorial in future.
-            self.seen = True
         tracker.emit('get_client_configuration', result)
         return result
 
@@ -1008,6 +1004,11 @@ class RecommenderXBlock(HelperXBlock):
         frag.add_javascript(self.resource_string("static/js/src/cats.js"))
         frag.add_javascript(self.resource_string("static/js/src/recommender.js"))
         frag.initialize_js('RecommenderXBlock', self.get_client_configuration())
+        # First student view delivered the intro, mark seen so it doesn't
+        # show again. Must happen after get_client_configuration to avoid
+        # writing Scope.user_info during studio_view render (auto-save
+        # rejects user_info).
+        self.seen = True
         return frag
 
     def studio_view(self, _context=None):  # pylint: disable=unused-argument
@@ -1016,8 +1017,14 @@ class RecommenderXBlock(HelperXBlock):
         course staff when editing a course in studio.
         """
         frag = Fragment()
+        configurations = self.get_client_configuration()
         frag.add_content(resource_loader.render_django_template(
-            "templates/recommenderstudio.html",
+            "templates/recommenderstudio.html", {
+                'configurations': configurations,
+                'intro_enabled': self.intro_enabled,
+                'entries_per_page_options': range(1, 11),
+                'page_span_options': range(1, 6),
+            },
             i18n_service=self.runtime.service(self, "i18n")
         ))
         frag.add_css(load("static/css/recommenderstudio.css"))
